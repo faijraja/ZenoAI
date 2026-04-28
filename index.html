@@ -1,0 +1,30 @@
+<h1>My AI Tool 🤖</h1>
+
+<input type="text" id="userInput" placeholder="Yahan question likho">
+<button onclick="askAI()">Send</button>
+
+<p id="response"></p>
+
+<script>
+async function askAI() {
+  let input = document.getElementById("userInput").value;
+
+  document.getElementById("response").innerText = "Loading...";
+
+  let res = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer YOUR_API_KEY"
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: input }]
+    })
+  });
+
+  let data = await res.json();
+  document.getElementById("response").innerText =
+    data.choices[0].message.content;
+}
+</script>
